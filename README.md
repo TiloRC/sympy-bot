@@ -8,6 +8,15 @@ in the pull request description. It then automatically adds these notes to the
 [release notes](https://github.com/sympy/sympy/wiki/Release-Notes) on the wiki
 when the pull request is merged.
 
+The same comment also reminds contributors to fill in the `#### AI Generation
+Disclosure` section of the [pull request
+template](https://github.com/sympy/sympy/blob/master/.github/PULL_REQUEST_TEMPLATE.md)
+when it is missing or left blank, as required by the [policy on AI generated
+code and
+communication](https://docs.sympy.org/dev/contributing/ai-generated-code-policy.html).
+This is advisory only; unlike the release notes check, it does not affect the
+commit status.
+
 See [the guide on the SymPy
 wiki](https://github.com/sympy/sympy/wiki/Writing-Release-Notes) on how to
 write release notes.
@@ -24,7 +33,7 @@ good on how to set up Heroku and write GitHub bots. This bot is based on it,
 although it uses Render instead of Heroku.
 
 The bot is tied to Render, so any push to this repo is automatically deployed
-there. The Redner
+there. The Render
 dashboard is at https://dashboard.render.com/
 
 If the bot stops working, look at the logs on the Render dashboard.

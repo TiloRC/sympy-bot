@@ -13,6 +13,7 @@ from gidgethub.aiohttp import GitHubAPI
 from .changelog import (get_changelog, update_release_notes, VERSION_RE,
                         get_release_notes_filename, BEGIN_RELEASE_NOTES,
                         END_RELEASE_NOTES)
+from .pr_template import validate_pr_template
 from .update_wiki import update_wiki
 
 router = routing.Router()
@@ -117,6 +118,13 @@ async def pull_request_comment_release_notes(event, gh):
     if status and header_in_message:
         status = False
         message = f"* The `{BEGIN_RELEASE_NOTES}` / `{END_RELEASE_NOTES}` block should go in the pull request description only, not the commit messages. It was found in the message for the commit {header_in_message}. See https://github.com/sympy/sympy/wiki/Development-workflow#changing-of-commit-messages for information on how to edit commit messages."
+
+    # Note that this does not affect the status. Unlike the release notes, a
+    # missing AI disclosure does not block merging; the message is advisory.
+    # Setting status = False here would make it block.
+    template_status, template_messages = validate_pr_template(event.data['pull_request']['body'])
+    if not template_status:
+        message += '\n\n' + '\n'.join(template_messages)
 
     gh_status = 'success' if status else 'failure'
 
